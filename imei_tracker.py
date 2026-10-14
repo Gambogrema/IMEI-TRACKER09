@@ -1,4 +1,3 @@
-cat > imei_tracker.py <<'PY'
 #!/usr/bin/env python3
 
 def verifier_imei(imei):
@@ -21,18 +20,23 @@ def verifier_imei(imei):
     return False, "IMEI invalide : clé de contrôle incorrecte."
 
 
-print("=" * 35)
-print("       IMEI-TRACKER09")
-print("=" * 35)
+def main():
+    print("=" * 35)
+    print("       IMEI-TRACKER09")
+    print("=" * 35)
 
-while True:
-    imei = input("\nEntrez un IMEI (q pour quitter) : ").strip()
+    while True:
+        imei = input("\nEntrez un IMEI (q pour quitter) : ").strip()
 
-    if imei.lower() == "q":
-        print("Fermeture du programme.")
-        break
+        if imei.lower() == "q":
+            print("Fermeture du programme.")
+            break
 
-    valide, message = verifier_imei(imei)
-    print(("[OK] " if valide else "[ERREUR] ") + message)
-    print("Ce contrôle ne vérifie pas si le téléphone est volé ou bloqué.")
-PY
+        valide, message = verifier_imei(imei)
+        statut = "[OK] " if valide else "[ERREUR] "
+        print(statut + message)
+        print("Ce contrôle ne vérifie pas si le téléphone est volé ou bloqué.")
+
+
+if __name__ == "__main__":
+    main()
