@@ -1,105 +1,449 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMEI-TRACKER09</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f2f5;
-            text-align: center;
-            padding: 30px 15px;
-        }    .container {
-        max-width: 450px;
-        margin: auto;
-        background: white;
-        padding: 25px;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px #cccccc;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1224">
+<meta name="description" content="IMEI-TRACKER09 : outil gratuit de vérification du format et de la clé de contrôle IMEI.">
+<title>IMEI-TRACKER09 | Vérificateur IMEI</title>
 
-    h1 {
-        color: #163a70;
-    }
+<style>
+:root {
+  --fond: #0b1224;
+  --carte: #141f35;
+  --bleu: #3b82f6;
+  --texte: #f1f5f9;
+  --secondaire: #a7b4c9;
+  --bordure: #2c3b55;
+}
 
-    input, button {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 12px;
-        margin-top: 12px;
-        font-size: 16px;
-        border-radius: 6px;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    input {
-        border: 1px solid #cccccc;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 24px 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--texte);
+  background:
+    radial-gradient(ellipse at top, #1b3763 0%, transparent 55%),
+    var(--fond);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    button {
-        background: #1769aa;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
+header {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 35px;
+}
 
-    #resultat {
-        margin-top: 20px;
-        overflow-wrap: anywhere;
-    }
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  font-size: 25px;
+  font-weight: bold;
+  box-shadow: 0 8px 25px #0004;
+}
+
+.nom {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.sous-nom {
+  margin-top: 5px;
+  color: var(--secondaire);
+  font-size: 12px;
+}
+
+.badge {
+  margin-left: auto;
+  padding: 7px 10px;
+  border: 1px solid #285b4b;
+  border-radius: 20px;
+  color: #86efac;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+main {
+  width: 100%;
+  max-width: 520px;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.intro h1 {
+  margin: 0 0 12px;
+  font-size: clamp(27px, 6vw, 36px);
+  line-height: 1.2;
+}
+
+.intro h1 span {
+  color: #60a5fa;
+}
+
+.intro p {
+  color: var(--secondaire);
+  line-height: 1.7;
+  font-size: 14px;
+  margin: 0;
+}
+
+.card {
+  background: linear-gradient(145deg, #17243b, #111b2e);
+  border: 1px solid var(--bordure);
+  border-radius: 22px;
+  padding: 25px 20px;
+  box-shadow: 0 20px 60px #0004;
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 19px;
+}
+
+.description {
+  color: var(--secondaire);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+
+label {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.input-zone {
+  display: flex;
+  align-items: center;
+  border: 1px solid #3a4b66;
+  border-radius: 12px;
+  background: #0b1426;
+  padding: 0 13px;
+  transition: border-color .2s;
+}
+
+.input-zone:focus-within {
+  border-color: var(--bleu);
+}
+
+.input-zone span {
+  color: #93c5fd;
+  font-size: 19px;
+  margin-right: 10px;
+}
+
+input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: white;
+  padding: 16px 0;
+  font-size: 16px;
+  letter-spacing: 1.5px;
+}
+
+input::placeholder {
+  color: #64748b;
+  letter-spacing: 0;
+  font-size: 14px;
+}
+
+.compteur {
+  color: var(--secondaire);
+  text-align: right;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  min-height: 48px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.verifier {
+  flex: 1;
+  border: 0;
+  color: white;
+  background: linear-gradient(100deg, #2563eb, #0891b2);
+  box-shadow: 0 8px 20px #2563eb30;
+}
+
+.verifier:active {
+  transform: scale(.98);
+}
+
+.effacer {
+  padding: 0 16px;
+  border: 1px solid var(--bordure);
+  background: transparent;
+  color: var(--secondaire);
+}
+
+.resultat {
+  display: none;
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  line-height: 1.6;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.resultat.succes {
+  display: block;
+  background: #123329;
+  border: 1px solid #267553;
+  color: #a7f3d0;
+}
+
+.resultat.erreur {
+  display: block;
+  background: #3b1c28;
+  border: 1px solid #9f344b;
+  color: #fecdd3;
+}
+
+.resultat strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.info {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #34445d;
+  border-radius: 13px;
+  background: #111c30;
+}
+
+.info .icone {
+  font-size: 21px;
+}
+
+.info p {
+  margin: 0;
+  color: var(--secondaire);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.info strong {
+  color: var(--texte);
+}
+
+footer {
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+  color: #8493aa;
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 28px;
+  padding-bottom: 10px;
+}
+
+footer a {
+  color: #93c5fd;
+  text-decoration: none;
+}
+
+@media (max-width: 380px) {
+  .badge {
+    font-size: 10px;
+    padding: 6px;
+  }
+
+  .card {
+    padding: 21px 15px;
+  }
+
+  .effacer {
+    padding: 0 12px;
+  }
+}
 </style>
-
 </head>
+
 <body>
-    <div class="container">
-        <h1>IMEI-TRACKER09</h1>
-        <p>Vérification du numéro IMEI d'un téléphone</p>    <form id="formulaire">
+
+<header>
+  <div class="logo">I</div>
+  <div>
+    <div class="nom">IMEI-TRACKER09</div>
+    <div class="sous-nom">Outil de vérification IMEI</div>
+  </div>
+  <div class="badge">● En ligne</div>
+</header>
+
+<main>
+  <section class="intro">
+    <h1>Vérifiez votre <span>IMEI</span></h1>
+    <p>Un contrôle simple du format et de la clé de contrôle<br>
+    de votre numéro IMEI.</p>
+  </section>
+
+  <section class="card">
+    <h2>Vérification du téléphone</h2>
+    <p class="description">
+      Saisissez le numéro IMEI à 15 chiffres pour lancer le contrôle.
+    </p>
+
+    <form id="formulaire">
+      <label for="imei">Numéro IMEI</label>
+
+      <div class="input-zone">
+        <span>▦</span>
         <input
-            type="text"
-            id="imei"
-            placeholder="Entrez votre numéro IMEI"
-            inputmode="numeric"
-            maxlength="15"
-            required
+          type="text"
+          id="imei"
+          name="imei"
+          placeholder="Ex. : 490154203237518"
+          inputmode="numeric"
+          autocomplete="off"
+          maxlength="15"
+          aria-describedby="compteur"
+          required
         >
-        <button type="submit">Vérifier l'IMEI</button>
+      </div>
+
+      <div class="compteur" id="compteur">0 / 15 chiffres</div>
+
+      <div class="actions">
+        <button class="verifier" type="submit">Vérifier l'IMEI →</button>
+        <button class="effacer" type="button" id="effacer">Effacer</button>
+      </div>
     </form>
 
-    <div id="resultat" aria-live="polite"></div>
-</div>
+    <div id="resultat" class="resultat" role="status" aria-live="polite"></div>
+  </section>
+
+  <aside class="info">
+    <div class="icone">🛡️</div>
+    <p>
+      <strong>À savoir</strong><br>
+      Le contrôle est effectué dans votre navigateur.
+      Votre numéro n'est pas envoyé à un serveur par cette page.
+      Un résultat valide ne prouve pas que le téléphone est légitime,
+      ni qu'il n'est pas déclaré perdu, volé ou bloqué.
+    </p>
+  </aside>
+</main>
+
+<footer>
+  <div>© 2026 IMEI-TRACKER09</div>
+  <div>Projet indépendant de vérification technique des IMEI.</div>
+  <div><a href="https://github.com/Gambogrema/IMEI-TRACKER09">Voir le projet sur GitHub</a></div>
+</footer>
 
 <script>
-    document.getElementById("formulaire").addEventListener("submit", function(event) {
-        event.preventDefault();
+const formulaire = document.getElementById("formulaire");
+const champ = document.getElementById("imei");
+const resultat = document.getElementById("resultat");
+const compteur = document.getElementById("compteur");
+const boutonEffacer = document.getElementById("effacer");
 
-        const imei = document.getElementById("imei").value.trim();
-        const resultat = document.getElementById("resultat");
+champ.addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, "").slice(0, 15);
+  compteur.textContent = this.value.length + " / 15 chiffres";
+  resultat.className = "resultat";
+  resultat.textContent = "";
+});
 
-        if (!/^\d{15}$/.test(imei)) {
-            resultat.textContent = "Veuillez saisir un IMEI de 15 chiffres.";
-            return;
-        }
+formulaire.addEventListener("submit", function (event) {
+  event.preventDefault();
 
-        let somme = 0;
+  const imei = champ.value.trim();
 
-        for (let i = 0; i < 15; i++) {
-            let chiffre = Number(imei[i]);
+  if (!/^\d{15}$/.test(imei)) {
+    afficherResultat(
+      "erreur",
+      "Numéro incorrect",
+      "Veuillez saisir exactement 15 chiffres."
+    );
+    return;
+  }
 
-            if (i % 2 === 1) {
-                chiffre *= 2;
-                if (chiffre > 9) chiffre -= 9;
-            }
+  let somme = 0;
 
-            somme += chiffre;
-        }
+  for (let i = 0; i < imei.length; i++) {
+    let chiffre = Number(imei[i]);
 
-        if (somme % 10 === 0) {
-            resultat.textContent =
-                "Le format et la clé de contrôle de cet IMEI sont valides. Cela ne confirme pas l'identité du téléphone ni son statut.";
-        } else {
-            resultat.textContent =
-                "La clé de contrôle de cet IMEI est invalide. Vérifiez le numéro saisi.";
-        }
-    });
+    if (i % 2 === 1) {
+      chiffre *= 2;
+      if (chiffre > 9) chiffre -= 9;
+    }
+
+    somme += chiffre;
+  }
+
+  if (somme % 10 === 0) {
+    afficherResultat(
+      "succes",
+      "✓ Clé de contrôle valide",
+      "Le format et la clé de contrôle de cet IMEI sont valides. Cela ne vérifie pas si le téléphone est perdu, volé ou bloqué."
+    );
+  } else {
+    afficherResultat(
+      "erreur",
+      "✕ Clé de contrôle invalide",
+      "Vérifiez le numéro saisi. La clé de contrôle ne correspond pas."
+    );
+  }
+});
+
+function afficherResultat(type, titre, message) {
+  resultat.className = "resultat " + type;
+
+  const titreElement = document.createElement("strong");
+  titreElement.textContent = titre;
+
+  const messageElement = document.createElement("div");
+  messageElement.textContent = message;
+
+  resultat.replaceChildren(titreElement, messageElement);
+}
+
+boutonEffacer.addEventListener("click", function () {
+  champ.value = "";
+  compteur.textContent = "0 / 15 chiffres";
+  resultat.className = "resultat";
+  resultat.textContent = "";
+  champ.focus();
+});
 </script>
 
 </body>
